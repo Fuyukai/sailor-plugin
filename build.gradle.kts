@@ -58,33 +58,6 @@ kotlin {
 }
 
 publishing {
-    publications {
-        create<MavenPublication>("maven") {
-            from(components["java"])
-
-            pom {
-                name.set(project.name)
-                description.set("My custom gradle plugin for MC mods")
-                url.set("https://github.com/Fuyukai/sailor-plugin")
-
-                licenses {
-                    license {
-                        name.set("MPL-2.0")
-                        url.set("https://www.mozilla.org/en-US/MPL/2.0/")
-                    }
-                }
-
-                developers {
-                    developer {
-                        id.set("Fuyukai")
-                        name.set("Lura Skye")
-                        url.set("https://veriny.tf")
-                    }
-                }
-            }
-        }
-    }
-
     repositories {
         maven {
             url = URI.create("https://maven.veriny.tf/releases")
