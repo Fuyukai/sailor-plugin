@@ -28,7 +28,7 @@ public class BasePlugin : Plugin<Project> {
         val groups: List<String> = emptyList(),
         val releasesOnly: Boolean = true
     ) {
-        val uri = URI.create(uri)
+        val uri: URI = URI.create(uri)
     }
 
     // don't add repositories here. i'll mirror them.
@@ -107,12 +107,26 @@ public class BasePlugin : Plugin<Project> {
         spotlessExt.lineEndings = LineEnding.UNIX
         spotlessExt.encoding = Charsets.UTF_8
 
+        spotlessExt.java { j ->
+            j.indentWithSpaces(4)
+            j.endWithNewline()
+            j.targetExclude("build/generated/**")
+            j.indentWithSpaces()
+
+            rootProject.file("gradle/LICENCE-HEADER.txt")
+                .takeIf { it.exists() }
+                ?.let(j::licenseHeaderFile)
+        }
+
         spotlessExt.kotlin { k ->
             k.indentWithSpaces(4)
+            k.endWithNewline()
             k.targetExclude("build/generated/**")
             k.trimTrailingWhitespace()
 
-            k.licenseHeaderFile(rootProject.file("gradle/LICENCE-HEADER.txt"))
+            rootProject.file("gradle/LICENCE-HEADER.txt")
+                .takeIf { it.exists() }
+                ?.let(k::licenseHeaderFile)
         }
     }
 
@@ -144,22 +158,15 @@ public class BasePlugin : Plugin<Project> {
                 content.excludeGroupAndSubgroups("com.mojang")
             }
 
-        // just add all repositories to all groups here.
-        // this rather complex setup ensures we don't end up hitting random repos for deps that
-        // will NEVER be there, saving quite a bit of time importing - esp on slow connections.
-
         for (repo in REPOS) {
             target.repositories.maven { m ->
                 m.url = repo.uri
                 m.name = repo.name
 
-                if (repo.groups.isNotEmpty()) {
-                    m.mavenContent { content ->
-                        repo.groups.forEach(content::includeGroupAndSubgroups)
-                    }
+                m.mavenContent { content ->
+                    repo.groups.forEach(content::includeGroupAndSubgroups)
+                    if (repo.releasesOnly) content.releasesOnly()
                 }
-
-                if (repo.releasesOnly) m.mavenContent { c -> c.releasesOnly() }
             }
         }
 

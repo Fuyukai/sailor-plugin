@@ -24,11 +24,11 @@ repositories {
 }
 
 group = "tf.veriny.gradle"
-version = "0.7.0"
+version = "0.7.1"
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.0")
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.19.0")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.22.0")
 }
 
 
@@ -44,12 +44,12 @@ gradlePlugin {
 tasks {
     withType<KotlinCompile> {
         kotlinOptions {
-            jvmTarget = "20"
+            jvmTarget = "17"
         }
     }
 
     withType<JavaCompile> {
-        targetCompatibility = "20"
+        targetCompatibility = "17"
     }
 }
 
