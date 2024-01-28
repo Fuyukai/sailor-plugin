@@ -13,7 +13,7 @@ import java.net.URI
 
 plugins {
     `java-gradle-plugin`
-    kotlin("jvm").version("1.9.0")
+    kotlin("jvm").version("1.9.22")
     id("maven-publish")
 }
 
@@ -24,11 +24,11 @@ repositories {
 }
 
 group = "tf.veriny.gradle"
-version = "0.7.1"
+version = "0.7.2"
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10")
-    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.22.0")
+    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.22")
+    implementation("com.diffplug.spotless:spotless-plugin-gradle:6.25.0")
 }
 
 
