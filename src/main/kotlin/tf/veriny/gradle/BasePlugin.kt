@@ -111,7 +111,6 @@ public class BasePlugin : Plugin<Project> {
             j.indentWithSpaces(4)
             j.endWithNewline()
             j.targetExclude("build/generated/**")
-            j.indentWithSpaces()
 
             rootProject.file("gradle/LICENCE-HEADER.txt")
                 .takeIf { it.exists() }
